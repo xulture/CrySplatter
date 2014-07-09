@@ -10,6 +10,7 @@
 
         If Me.Visible = True Then
             LoadHeightmapDatFile()
+            ParseXml()
         End If
     End Sub
 
@@ -56,5 +57,9 @@
         readPos += layermapLength
 
         ' what follows is TerrainCompiledData, we don't know how to make use of it, so leave it as is -- it will be written back intact
+    End Sub
+
+    Private Sub ParseXml()
+
     End Sub
 End Class
