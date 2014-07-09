@@ -1,0 +1,22 @@
+FF (record type?)
+xx xx = two byte size of xml component
+
+0E (delimiter? or record type...)
+HeightmapDataW
+00 80 00 00 = maybe size
+00 80 00 00 = maybe size again
+00 00 00 00 = reserved
+<array of 2-byte heightmap data>
+1B (delimiter, or record type)
+HeightmapLayerIdBitmap_ver2
+00 40 00 00 = size
+00 40 00 00 = size again
+00 00 00 00 = reserved
+<array of 1-byte layer IDs>
+13 (delimiter, or record type)
+TerrainCompiledData
+xx xx xx xx = size
+xx xx xx xx = size
+00 00 00 00 = reserved
+<data to fill to the end of file>
+
