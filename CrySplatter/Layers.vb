@@ -47,6 +47,7 @@ Public Class Layers
         ButtonLoadBitmap.Enabled = False
         ButtonSaveBitmap.Enabled = False
         ButtonWriteLevel.Enabled = False
+        TrackBarCutoff.Hide()
         LoadHeightmapDatFile()
         ParseXml()
         DisplayLayersInfo()
@@ -162,6 +163,7 @@ Public Class Layers
             Return
         End If
         TrackBarCutoff.Enabled = False
+        TrackBarCutoff.Hide()
         DisplayLayer(ListBoxLayersList.SelectedIndex)
     End Sub
 
@@ -235,6 +237,7 @@ Public Class Layers
         currentLoadedBitmap = bmp
         ButtonWriteLevel.Enabled = True
         TrackBarCutoff.Enabled = True
+        TrackBarCutoff.Show()
         Array.Copy(layermapContent, layermapContentBackup, layermapContent.Length)
 
         RewriteLayerData()
@@ -323,7 +326,6 @@ Public Class Layers
     End Sub
 
     Private Sub TrackBarCutoff_Scroll(sender As Object, e As EventArgs) Handles TrackBarCutoff.Scroll
-
 
         ' restore backup then do it again
         Array.Copy(layermapContentBackup, layermapContent, layermapContentBackup.Length)
