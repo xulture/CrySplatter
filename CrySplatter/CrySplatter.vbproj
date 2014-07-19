@@ -118,6 +118,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewXML.Designer.vb">
+      <DependentUpon>ViewXML.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ViewXML.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Layers.resx">
@@ -131,6 +137,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewXML.resx">
+      <DependentUpon>ViewXML.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

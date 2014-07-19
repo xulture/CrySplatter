@@ -23,24 +23,22 @@ Partial Class Layers
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Layers))
-        Me.TextBoxFileContent = New System.Windows.Forms.TextBox()
         Me.ButtonBack = New System.Windows.Forms.Button()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
-        Me.ListBox1 = New System.Windows.Forms.ListBox()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.ListBoxLayersList = New System.Windows.Forms.ListBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.RichTextBoxLayerProperties = New System.Windows.Forms.RichTextBox()
+        Me.PictureBoxMaskPreview = New System.Windows.Forms.PictureBox()
+        Me.OpenFileDialogBitmap = New System.Windows.Forms.OpenFileDialog()
+        Me.ButtonLoadBitmap = New System.Windows.Forms.Button()
+        Me.ButtonSaveBitmap = New System.Windows.Forms.Button()
+        Me.SaveFileDialogBitmap = New System.Windows.Forms.SaveFileDialog()
+        Me.ButtonWriteLevel = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.ButtonViewXml = New System.Windows.Forms.Button()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBoxMaskPreview, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'TextBoxFileContent
-        '
-        Me.TextBoxFileContent.Location = New System.Drawing.Point(12, 25)
-        Me.TextBoxFileContent.Multiline = True
-        Me.TextBoxFileContent.Name = "TextBoxFileContent"
-        Me.TextBoxFileContent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.TextBoxFileContent.Size = New System.Drawing.Size(660, 49)
-        Me.TextBoxFileContent.TabIndex = 0
         '
         'ButtonBack
         '
@@ -65,27 +63,18 @@ Partial Class Layers
         Me.PictureBox2.TabIndex = 10
         Me.PictureBox2.TabStop = False
         '
-        'ListBox1
+        'ListBoxLayersList
         '
-        Me.ListBox1.FormattingEnabled = True
-        Me.ListBox1.Location = New System.Drawing.Point(13, 104)
-        Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(154, 199)
-        Me.ListBox1.TabIndex = 11
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(69, 13)
-        Me.Label1.TabIndex = 12
-        Me.Label1.Text = "XML Content"
+        Me.ListBoxLayersList.FormattingEnabled = True
+        Me.ListBoxLayersList.Location = New System.Drawing.Point(12, 25)
+        Me.ListBoxLayersList.Name = "ListBoxLayersList"
+        Me.ListBoxLayersList.Size = New System.Drawing.Size(133, 277)
+        Me.ListBoxLayersList.TabIndex = 11
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(12, 86)
+        Me.Label2.Location = New System.Drawing.Point(12, 9)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(38, 13)
         Me.Label2.TabIndex = 13
@@ -93,11 +82,77 @@ Partial Class Layers
         '
         'RichTextBoxLayerProperties
         '
-        Me.RichTextBoxLayerProperties.Location = New System.Drawing.Point(185, 104)
+        Me.RichTextBoxLayerProperties.Location = New System.Drawing.Point(151, 25)
         Me.RichTextBoxLayerProperties.Name = "RichTextBoxLayerProperties"
-        Me.RichTextBoxLayerProperties.Size = New System.Drawing.Size(487, 95)
+        Me.RichTextBoxLayerProperties.Size = New System.Drawing.Size(177, 190)
         Me.RichTextBoxLayerProperties.TabIndex = 14
         Me.RichTextBoxLayerProperties.Text = ""
+        '
+        'PictureBoxMaskPreview
+        '
+        Me.PictureBoxMaskPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBoxMaskPreview.Location = New System.Drawing.Point(334, 12)
+        Me.PictureBoxMaskPreview.Name = "PictureBoxMaskPreview"
+        Me.PictureBoxMaskPreview.Size = New System.Drawing.Size(338, 338)
+        Me.PictureBoxMaskPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBoxMaskPreview.TabIndex = 15
+        Me.PictureBoxMaskPreview.TabStop = False
+        '
+        'OpenFileDialogBitmap
+        '
+        Me.OpenFileDialogBitmap.FileName = "*.bmp"
+        '
+        'ButtonLoadBitmap
+        '
+        Me.ButtonLoadBitmap.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonLoadBitmap.Location = New System.Drawing.Point(151, 221)
+        Me.ButtonLoadBitmap.Name = "ButtonLoadBitmap"
+        Me.ButtonLoadBitmap.Size = New System.Drawing.Size(80, 29)
+        Me.ButtonLoadBitmap.TabIndex = 16
+        Me.ButtonLoadBitmap.Text = "Load Bitmap"
+        Me.ButtonLoadBitmap.UseVisualStyleBackColor = True
+        '
+        'ButtonSaveBitmap
+        '
+        Me.ButtonSaveBitmap.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonSaveBitmap.Location = New System.Drawing.Point(248, 221)
+        Me.ButtonSaveBitmap.Name = "ButtonSaveBitmap"
+        Me.ButtonSaveBitmap.Size = New System.Drawing.Size(80, 29)
+        Me.ButtonSaveBitmap.TabIndex = 17
+        Me.ButtonSaveBitmap.Text = "Save Bitmap"
+        Me.ButtonSaveBitmap.UseVisualStyleBackColor = True
+        '
+        'SaveFileDialogBitmap
+        '
+        '
+        'ButtonWriteLevel
+        '
+        Me.ButtonWriteLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonWriteLevel.Location = New System.Drawing.Point(184, 321)
+        Me.ButtonWriteLevel.Name = "ButtonWriteLevel"
+        Me.ButtonWriteLevel.Size = New System.Drawing.Size(123, 29)
+        Me.ButtonWriteLevel.TabIndex = 18
+        Me.ButtonWriteLevel.Text = "Save Layer Map"
+        Me.ButtonWriteLevel.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(154, 9)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(54, 13)
+        Me.Label1.TabIndex = 19
+        Me.Label1.Text = "Layer Info"
+        '
+        'ButtonViewXml
+        '
+        Me.ButtonViewXml.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonViewXml.Location = New System.Drawing.Point(151, 257)
+        Me.ButtonViewXml.Name = "ButtonViewXml"
+        Me.ButtonViewXml.Size = New System.Drawing.Size(80, 29)
+        Me.ButtonViewXml.TabIndex = 20
+        Me.ButtonViewXml.Text = "View XML"
+        Me.ButtonViewXml.UseVisualStyleBackColor = True
         '
         'Layers
         '
@@ -105,29 +160,40 @@ Partial Class Layers
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ControlDarkDark
         Me.ClientSize = New System.Drawing.Size(684, 362)
+        Me.Controls.Add(Me.ButtonViewXml)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.ButtonWriteLevel)
+        Me.Controls.Add(Me.ButtonSaveBitmap)
+        Me.Controls.Add(Me.ButtonLoadBitmap)
+        Me.Controls.Add(Me.PictureBoxMaskPreview)
         Me.Controls.Add(Me.RichTextBoxLayerProperties)
         Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.ListBox1)
+        Me.Controls.Add(Me.ListBoxLayersList)
         Me.Controls.Add(Me.ButtonBack)
-        Me.Controls.Add(Me.TextBoxFileContent)
         Me.Controls.Add(Me.PictureBox2)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "Layers"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "CrySplatter - Layers"
+        Me.Text = "CrySplatter v0.1 - Layers"
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBoxMaskPreview, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents TextBoxFileContent As System.Windows.Forms.TextBox
     Friend WithEvents ButtonBack As System.Windows.Forms.Button
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
-    Friend WithEvents ListBox1 As System.Windows.Forms.ListBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents ListBoxLayersList As System.Windows.Forms.ListBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents RichTextBoxLayerProperties As System.Windows.Forms.RichTextBox
+    Friend WithEvents PictureBoxMaskPreview As System.Windows.Forms.PictureBox
+    Friend WithEvents OpenFileDialogBitmap As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents ButtonLoadBitmap As System.Windows.Forms.Button
+    Friend WithEvents ButtonSaveBitmap As System.Windows.Forms.Button
+    Friend WithEvents SaveFileDialogBitmap As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents ButtonWriteLevel As System.Windows.Forms.Button
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents ButtonViewXml As System.Windows.Forms.Button
 End Class
