@@ -9,9 +9,11 @@ Public Class Layers
     Private xmlContent As String
     Private heightmapContent As Byte()
     Private layermapContent As Byte()
+    Private layermapContentBackup As Byte()
     Private heightmapFilePos As Integer
     Private layermapFilePos As Integer
     Private currentBitmap As Bitmap
+    Private currentLoadedBitmap As Bitmap
 
     Private Structure LayerRec
         Public Name As String
@@ -34,18 +36,22 @@ Public Class Layers
 
         If Me.Visible = True Then
             Try
-                ButtonLoadBitmap.Enabled = False
-                ButtonSaveBitmap.Enabled = False
-                ButtonWriteLevel.Enabled = False
-                LoadHeightmapDatFile()
-                ParseXml()
-                DisplayLayersInfo()
-                RichTextBoxLayerProperties.Clear()
-                RichTextBoxLayerProperties.AppendText("Level Name: " & Main.SelectedLevel & Environment.NewLine)
+                LoadLevel()
             Catch ex As Exception
                 MessageBox.Show(ex.ToString())
             End Try
         End If
+    End Sub
+
+    Private Sub LoadLevel()
+        ButtonLoadBitmap.Enabled = False
+        ButtonSaveBitmap.Enabled = False
+        ButtonWriteLevel.Enabled = False
+        LoadHeightmapDatFile()
+        ParseXml()
+        DisplayLayersInfo()
+        RichTextBoxLayerProperties.Clear()
+        RichTextBoxLayerProperties.AppendText("Level Name: " & Main.SelectedLevel & Environment.NewLine)
     End Sub
 
     Private Sub Layers_OnClose(sender As Object, e As EventArgs) Handles MyBase.FormClosing
@@ -87,10 +93,11 @@ Public Class Layers
         readPos += 12 ' 4-byte length, 4-byte length again, 4-byte 0's
         layermapFilePos = readPos
         ReDim layermapContent(layermapLength)
+        ReDim layermapContentBackup(layermapLength)
         Array.Copy(fileContent, readPos, layermapContent, 0, layermapLength)
         readPos += layermapLength
 
-        ' what follows is TerrainCompiledData, we don't know how to make use of it, so leave it as is -- it will be written back intact
+        ' what follows is TerrainCompiledData, HeightmapModSectors and so on, we don't know how to make use of it, so leave it as is -- it will be written back intact
     End Sub
 
     Private Sub ParseXml()
@@ -135,6 +142,12 @@ Public Class Layers
 
     Private Sub DisplayLayersInfo()
 
+        If My.Settings.RotateMaps = 1 Then
+            CheckBoxRotateMaps.Checked = True
+        Else
+            CheckBoxRotateMaps.Checked = False
+        End If
+
         ListBoxLayersList.Items.Clear()
         RichTextBoxLayerProperties.Clear()
         PictureBoxMaskPreview.Image = New Bitmap(1, 1)
@@ -145,12 +158,20 @@ Public Class Layers
     End Sub
 
     Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBoxLayersList.SelectedIndexChanged
+        If ListBoxLayersList.SelectedIndex = -1 Then
+            Return
+        End If
+        TrackBarCutoff.Enabled = False
+        DisplayLayer(ListBoxLayersList.SelectedIndex)
+    End Sub
+
+    Private Sub DisplayLayer(LayerIdx As Integer)
         RichTextBoxLayerProperties.Clear()
         RichTextBoxLayerProperties.AppendText("Level Name: " & Main.SelectedLevel & Environment.NewLine)
 
-        Dim layer As LayerRec = LayersInfo.Arr(ListBoxLayersList.SelectedIndex)
+        Dim layer As LayerRec = LayersInfo.Arr(LayerIdx)
         RichTextBoxLayerProperties.AppendText("Heightmap size " & LayersInfo.Width & "x" & LayersInfo.Height & Environment.NewLine)
-        RichTextBoxLayerProperties.AppendText(layer.Id & ": " & layer.Name & Environment.NewLine)
+        RichTextBoxLayerProperties.AppendText("Layer: (" & layer.Id & ") " & layer.Name & Environment.NewLine)
 
         ' count how many times used in bitmap
         Dim count As Integer = 0
@@ -201,36 +222,48 @@ Public Class Layers
     Private Sub OpenFileDialogBitmap_FileOk(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialogBitmap.FileOk
         ' load bitmap & display
         Dim bmp As New Bitmap(OpenFileDialogBitmap.FileName)
-        PictureBoxMaskPreview.Image = bmp
-        currentBitmap = bmp
+
+        If bmp.Width <> LayersInfo.Width Or bmp.Height <> LayersInfo.Height Then
+            MessageBox.Show("Image dimensions must be " & LayersInfo.Width & "x" & LayersInfo.Height)
+            Return
+        End If
+
+        If CheckBoxRotateMaps.Checked Then
+            bmp.RotateFlip(RotateFlipType.Rotate90FlipNone)
+        End If
+
+        currentLoadedBitmap = bmp
         ButtonWriteLevel.Enabled = True
+        TrackBarCutoff.Enabled = True
+        Array.Copy(layermapContent, layermapContentBackup, layermapContent.Length)
 
+        RewriteLayerData()
+
+    End Sub
+
+    Private Sub RewriteLayerData()
         ' rewrite layer map data
-        Dim rect As New Rectangle(0, 0, bmp.Width, bmp.Height)
-        Dim mapData As System.Drawing.Imaging.BitmapData = bmp.LockBits(rect, Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat)
+        Dim rect As New Rectangle(0, 0, currentLoadedBitmap.Width, currentLoadedBitmap.Height)
+        Dim mapData As System.Drawing.Imaging.BitmapData = currentLoadedBitmap.LockBits(rect, Drawing.Imaging.ImageLockMode.ReadOnly, currentLoadedBitmap.PixelFormat)
 
-        Dim bytes As Integer = Math.Abs(mapData.Stride) * bmp.Height
+        Dim bytes As Integer = Math.Abs(mapData.Stride) * currentLoadedBitmap.Height
         Dim rgbValues(bytes - 1) As Byte
 
-        Dim bytesPerPixel As Integer = Math.Abs(mapData.Stride) / bmp.Width
+        Dim bytesPerPixel As Integer = Math.Abs(mapData.Stride) / currentLoadedBitmap.Width
 
         Dim ptr As IntPtr = mapData.Scan0
         System.Runtime.InteropServices.Marshal.Copy(ptr, rgbValues, 0, bytes)
 
+        Dim Cutoff As Byte = TrackBarCutoff.Value
+
         Dim layer As LayerRec = LayersInfo.Arr(ListBoxLayersList.SelectedIndex)
         For Idx As Integer = 0 To rgbValues.Length - 1 Step bytesPerPixel
-            Dim weight As Single = 1.0
-            For j As Integer = 0 To bytesPerPixel - 1
-                weight *= rgbValues(Idx + j) / 128 ' result of 1.0 is exactly half way
-            Next
-
-            If weight > 1.0 Then
+            If rgbValues(Idx) > Cutoff Then
                 layermapContent(Idx / bytesPerPixel) = layer.Id
             End If
-
         Next
-        bmp.UnlockBits(mapData)
-
+        currentLoadedBitmap.UnlockBits(mapData)
+        DisplayLayer(ListBoxLayersList.SelectedIndex)
     End Sub
 
     Private Sub ButtonSaveBitmap_Click(sender As Object, e As EventArgs) Handles ButtonSaveBitmap.Click
@@ -239,14 +272,39 @@ Public Class Layers
     End Sub
 
     Private Sub SaveFileDialogBitmap_FileOk(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles SaveFileDialogBitmap.FileOk
-        currentBitmap.Save(SaveFileDialogBitmap.FileName, System.Drawing.Imaging.ImageFormat.Bmp)
+        Try
+            currentBitmap.Save(SaveFileDialogBitmap.FileName, System.Drawing.Imaging.ImageFormat.Bmp)
+        Catch ex As Exception
+            MessageBox.Show("Cannot write to a file, ensure file is not open by another program!")
+        End Try
+
     End Sub
 
     Private Sub ButtonWriteLevel_Click(sender As Object, e As EventArgs) Handles ButtonWriteLevel.Click
 
-        Array.Copy(layermapContent, 0, fileContent, layermapFilePos, layermapContent.Length)
-        System.IO.File.Copy(filename, filename & ".crysplat.bak", True)
+        Array.Copy(layermapContent, 0, fileContent, layermapFilePos, layermapContent.Length - 1)
+
+        ' make up to 3 backup files
+        Try
+            System.IO.File.Copy(filename & ".crysplat.bak2", filename & ".crysplat.bak3", True)
+        Catch ex As Exception
+            ' do nothing
+        End Try
+        Try
+            System.IO.File.Copy(filename & ".crysplat.bak", filename & ".crysplat.bak2", True)
+        Catch ex As Exception
+            ' do nothing
+        End Try
+        Try
+            System.IO.File.Copy(filename, filename & ".crysplat.bak", True)
+        Catch ex As Exception
+            ' do nothing
+        End Try
+
+        ' save the file
         My.Computer.FileSystem.WriteAllBytes(filename, fileContent, False)
+
+        MessageBox.Show("Layermap saved, please reload the level in CRYENGINE Sandbox")
     End Sub
 
     Private Sub ButtonViewXml_Click(sender As Object, e As EventArgs) Handles ButtonViewXml.Click
@@ -255,4 +313,24 @@ Public Class Layers
         ViewXML.Show()
     End Sub
 
+    Private Sub CheckBoxRotateMaps_Click(sender As Object, e As EventArgs) Handles CheckBoxRotateMaps.Click
+        If CheckBoxRotateMaps.Checked Then
+            My.Settings.RotateMaps = 1
+        Else
+            My.Settings.RotateMaps = 0
+        End If
+        My.Settings.Save()
+    End Sub
+
+    Private Sub TrackBarCutoff_Scroll(sender As Object, e As EventArgs) Handles TrackBarCutoff.Scroll
+
+
+        ' restore backup then do it again
+        Array.Copy(layermapContentBackup, layermapContent, layermapContentBackup.Length)
+        RewriteLayerData()
+    End Sub
+
+    Private Sub ButtonDiscardChanges_Click(sender As Object, e As EventArgs) Handles ButtonDiscardChanges.Click
+        LoadLevel()
+    End Sub
 End Class

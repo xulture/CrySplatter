@@ -65,6 +65,17 @@ Namespace My
                 Me("CEGameFolder") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+        Public Property RotateMaps() As Integer
+            Get
+                Return CType(Me("RotateMaps"),Integer)
+            End Get
+            Set
+                Me("RotateMaps") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

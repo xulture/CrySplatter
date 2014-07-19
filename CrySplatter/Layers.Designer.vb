@@ -36,8 +36,12 @@ Partial Class Layers
         Me.ButtonWriteLevel = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ButtonViewXml = New System.Windows.Forms.Button()
+        Me.CheckBoxRotateMaps = New System.Windows.Forms.CheckBox()
+        Me.TrackBarCutoff = New System.Windows.Forms.TrackBar()
+        Me.ButtonDiscardChanges = New System.Windows.Forms.Button()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBoxMaskPreview, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TrackBarCutoff, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ButtonBack
@@ -45,7 +49,7 @@ Partial Class Layers
         Me.ButtonBack.BackColor = System.Drawing.Color.Transparent
         Me.ButtonBack.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.ButtonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonBack.Location = New System.Drawing.Point(12, 321)
+        Me.ButtonBack.Location = New System.Drawing.Point(12, 434)
         Me.ButtonBack.Name = "ButtonBack"
         Me.ButtonBack.Size = New System.Drawing.Size(102, 29)
         Me.ButtonBack.TabIndex = 7
@@ -58,7 +62,7 @@ Partial Class Layers
         Me.PictureBox2.Image = Global.CrySplatter.My.Resources.Resources.round_logo300
         Me.PictureBox2.Location = New System.Drawing.Point(0, 0)
         Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(684, 362)
+        Me.PictureBox2.Size = New System.Drawing.Size(769, 475)
         Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PictureBox2.TabIndex = 10
         Me.PictureBox2.TabStop = False
@@ -68,7 +72,7 @@ Partial Class Layers
         Me.ListBoxLayersList.FormattingEnabled = True
         Me.ListBoxLayersList.Location = New System.Drawing.Point(12, 25)
         Me.ListBoxLayersList.Name = "ListBoxLayersList"
-        Me.ListBoxLayersList.Size = New System.Drawing.Size(133, 277)
+        Me.ListBoxLayersList.Size = New System.Drawing.Size(133, 394)
         Me.ListBoxLayersList.TabIndex = 11
         '
         'Label2
@@ -82,7 +86,7 @@ Partial Class Layers
         '
         'RichTextBoxLayerProperties
         '
-        Me.RichTextBoxLayerProperties.Location = New System.Drawing.Point(151, 25)
+        Me.RichTextBoxLayerProperties.Location = New System.Drawing.Point(157, 25)
         Me.RichTextBoxLayerProperties.Name = "RichTextBoxLayerProperties"
         Me.RichTextBoxLayerProperties.Size = New System.Drawing.Size(177, 190)
         Me.RichTextBoxLayerProperties.TabIndex = 14
@@ -91,9 +95,9 @@ Partial Class Layers
         'PictureBoxMaskPreview
         '
         Me.PictureBoxMaskPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBoxMaskPreview.Location = New System.Drawing.Point(334, 12)
+        Me.PictureBoxMaskPreview.Location = New System.Drawing.Point(349, 25)
         Me.PictureBoxMaskPreview.Name = "PictureBoxMaskPreview"
-        Me.PictureBoxMaskPreview.Size = New System.Drawing.Size(338, 338)
+        Me.PictureBoxMaskPreview.Size = New System.Drawing.Size(405, 405)
         Me.PictureBoxMaskPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PictureBoxMaskPreview.TabIndex = 15
         Me.PictureBoxMaskPreview.TabStop = False
@@ -105,7 +109,7 @@ Partial Class Layers
         'ButtonLoadBitmap
         '
         Me.ButtonLoadBitmap.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonLoadBitmap.Location = New System.Drawing.Point(151, 221)
+        Me.ButtonLoadBitmap.Location = New System.Drawing.Point(157, 251)
         Me.ButtonLoadBitmap.Name = "ButtonLoadBitmap"
         Me.ButtonLoadBitmap.Size = New System.Drawing.Size(80, 29)
         Me.ButtonLoadBitmap.TabIndex = 16
@@ -115,7 +119,7 @@ Partial Class Layers
         'ButtonSaveBitmap
         '
         Me.ButtonSaveBitmap.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonSaveBitmap.Location = New System.Drawing.Point(248, 221)
+        Me.ButtonSaveBitmap.Location = New System.Drawing.Point(254, 251)
         Me.ButtonSaveBitmap.Name = "ButtonSaveBitmap"
         Me.ButtonSaveBitmap.Size = New System.Drawing.Size(80, 29)
         Me.ButtonSaveBitmap.TabIndex = 17
@@ -128,11 +132,11 @@ Partial Class Layers
         'ButtonWriteLevel
         '
         Me.ButtonWriteLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonWriteLevel.Location = New System.Drawing.Point(184, 321)
+        Me.ButtonWriteLevel.Location = New System.Drawing.Point(241, 434)
         Me.ButtonWriteLevel.Name = "ButtonWriteLevel"
-        Me.ButtonWriteLevel.Size = New System.Drawing.Size(123, 29)
+        Me.ButtonWriteLevel.Size = New System.Drawing.Size(102, 29)
         Me.ButtonWriteLevel.TabIndex = 18
-        Me.ButtonWriteLevel.Text = "Save Layer Map"
+        Me.ButtonWriteLevel.Text = "Save To Engine"
         Me.ButtonWriteLevel.UseVisualStyleBackColor = True
         '
         'Label1
@@ -147,19 +151,55 @@ Partial Class Layers
         'ButtonViewXml
         '
         Me.ButtonViewXml.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ButtonViewXml.Location = New System.Drawing.Point(151, 257)
+        Me.ButtonViewXml.Location = New System.Drawing.Point(158, 286)
         Me.ButtonViewXml.Name = "ButtonViewXml"
         Me.ButtonViewXml.Size = New System.Drawing.Size(80, 29)
         Me.ButtonViewXml.TabIndex = 20
         Me.ButtonViewXml.Text = "View XML"
         Me.ButtonViewXml.UseVisualStyleBackColor = True
         '
+        'CheckBoxRotateMaps
+        '
+        Me.CheckBoxRotateMaps.AutoSize = True
+        Me.CheckBoxRotateMaps.Checked = True
+        Me.CheckBoxRotateMaps.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBoxRotateMaps.Location = New System.Drawing.Point(158, 228)
+        Me.CheckBoxRotateMaps.Name = "CheckBoxRotateMaps"
+        Me.CheckBoxRotateMaps.Size = New System.Drawing.Size(87, 17)
+        Me.CheckBoxRotateMaps.TabIndex = 21
+        Me.CheckBoxRotateMaps.Text = "Rotate Maps"
+        Me.CheckBoxRotateMaps.UseVisualStyleBackColor = True
+        '
+        'TrackBarCutoff
+        '
+        Me.TrackBarCutoff.LargeChange = 16
+        Me.TrackBarCutoff.Location = New System.Drawing.Point(349, 430)
+        Me.TrackBarCutoff.Maximum = 255
+        Me.TrackBarCutoff.Name = "TrackBarCutoff"
+        Me.TrackBarCutoff.Size = New System.Drawing.Size(405, 45)
+        Me.TrackBarCutoff.TabIndex = 22
+        Me.TrackBarCutoff.TickFrequency = 16
+        Me.TrackBarCutoff.Value = 128
+        '
+        'ButtonDiscardChanges
+        '
+        Me.ButtonDiscardChanges.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonDiscardChanges.Location = New System.Drawing.Point(120, 434)
+        Me.ButtonDiscardChanges.Name = "ButtonDiscardChanges"
+        Me.ButtonDiscardChanges.Size = New System.Drawing.Size(115, 29)
+        Me.ButtonDiscardChanges.TabIndex = 23
+        Me.ButtonDiscardChanges.Text = "Discard and Reload"
+        Me.ButtonDiscardChanges.UseVisualStyleBackColor = True
+        '
         'Layers
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.ClientSize = New System.Drawing.Size(684, 362)
+        Me.ClientSize = New System.Drawing.Size(769, 475)
+        Me.Controls.Add(Me.ButtonDiscardChanges)
+        Me.Controls.Add(Me.TrackBarCutoff)
+        Me.Controls.Add(Me.CheckBoxRotateMaps)
         Me.Controls.Add(Me.ButtonViewXml)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.ButtonWriteLevel)
@@ -179,6 +219,7 @@ Partial Class Layers
         Me.Text = "CrySplatter v0.1 - Layers"
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBoxMaskPreview, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TrackBarCutoff, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -196,4 +237,7 @@ Partial Class Layers
     Friend WithEvents ButtonWriteLevel As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents ButtonViewXml As System.Windows.Forms.Button
+    Friend WithEvents CheckBoxRotateMaps As System.Windows.Forms.CheckBox
+    Friend WithEvents TrackBarCutoff As System.Windows.Forms.TrackBar
+    Friend WithEvents ButtonDiscardChanges As System.Windows.Forms.Button
 End Class
