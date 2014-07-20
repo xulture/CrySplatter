@@ -7,7 +7,7 @@ Splatmap is typically a black and white image (or grayscale), where white colour
 
 After distributing, click on 'Save to Engine' and reload the level in CRYENGINE Sandbox
 
-CrySplatter requires .NET Framework 4.5 installed
+CrySplatter requires .NET Framework 4.5 installed.  It is compatible with CRYENGINE Sandbox 3.6.x (tested with 3.6.4) and CryEngine FreeSDK 3.5.x (tested with 3.5.4)
 
 This is completely free, open source tool.  Everyone is welcome to use the code and program, whichever way they want (including, but not limited to, redistribution and inclusion into other tools), without any restrictions.
 
