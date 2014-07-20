@@ -33,6 +33,7 @@ Partial Class Main
         Me.ButtonOpenLevel = New System.Windows.Forms.Button()
         Me.LabelLevels = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.ButtonAbout = New System.Windows.Forms.Button()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -134,6 +135,16 @@ Partial Class Main
         Me.PictureBox1.TabIndex = 8
         Me.PictureBox1.TabStop = False
         '
+        'ButtonAbout
+        '
+        Me.ButtonAbout.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ButtonAbout.Location = New System.Drawing.Point(643, 186)
+        Me.ButtonAbout.Name = "ButtonAbout"
+        Me.ButtonAbout.Size = New System.Drawing.Size(29, 29)
+        Me.ButtonAbout.TabIndex = 9
+        Me.ButtonAbout.Text = "?"
+        Me.ButtonAbout.UseVisualStyleBackColor = True
+        '
         'Main
         '
         Me.AllowDrop = True
@@ -142,6 +153,7 @@ Partial Class Main
         Me.BackColor = System.Drawing.SystemColors.ControlDarkDark
         Me.CancelButton = Me.ButtonExit
         Me.ClientSize = New System.Drawing.Size(684, 262)
+        Me.Controls.Add(Me.ButtonAbout)
         Me.Controls.Add(Me.LabelLevels)
         Me.Controls.Add(Me.ButtonOpenLevel)
         Me.Controls.Add(Me.ListBoxLevels)
@@ -172,5 +184,6 @@ Partial Class Main
     Friend WithEvents ButtonOpenLevel As System.Windows.Forms.Button
     Friend WithEvents LabelLevels As System.Windows.Forms.Label
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents ButtonAbout As System.Windows.Forms.Button
 
 End Class

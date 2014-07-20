@@ -335,4 +335,17 @@ Public Class Layers
     Private Sub ButtonDiscardChanges_Click(sender As Object, e As EventArgs) Handles ButtonDiscardChanges.Click
         LoadLevel()
     End Sub
+
+    Private Sub PictureBoxMaskPreview_Click(sender As Object, e As EventArgs) Handles PictureBoxMaskPreview.Click
+
+    End Sub
+
+    Private Sub Layers_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+
+    Private Sub ButtonAbout_Click(sender As Object, e As EventArgs) Handles ButtonAbout.Click
+        About.Show()
+    End Sub
+
 End Class

@@ -22,6 +22,7 @@ Partial Class ViewXML
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ViewXML))
         Me.RichTextBoxXMLContent = New System.Windows.Forms.RichTextBox()
         Me.SuspendLayout()
         '
@@ -41,6 +42,7 @@ Partial Class ViewXML
         Me.BackColor = System.Drawing.SystemColors.ControlDarkDark
         Me.ClientSize = New System.Drawing.Size(825, 543)
         Me.Controls.Add(Me.RichTextBoxXMLContent)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.Name = "ViewXML"
         Me.Text = "CrySplatter v0.1 - ViewXML"

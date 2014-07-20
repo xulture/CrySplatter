@@ -4,6 +4,7 @@
     Private SelectedIndex As Integer
     Public SelectedLevel As String
 
+
     Private Sub ButtonExit_Click(sender As Object, e As EventArgs) Handles ButtonExit.Click
         Application.Exit()
     End Sub
@@ -79,6 +80,7 @@
             CEFolderTextBox.Text = savedFolder
             PopulateLevelsList(savedFolder)
         End If
+
     End Sub
 
     Private Sub OpenLayersForm()
@@ -90,4 +92,9 @@
     Private Sub ButtonOpenLevel_Click(sender As Object, e As EventArgs) Handles ButtonOpenLevel.Click
         OpenLayersForm()
     End Sub
+
+    Private Sub ButtonAbout_Click(sender As Object, e As EventArgs) Handles ButtonAbout.Click
+        About.Show()
+    End Sub
+
 End Class
